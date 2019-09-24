@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="/visit?code=20190924"></script>
-    <script src="/js/vconsole.min.js"></script>
+    <!-- <script src="/js/vconsole.min.js"></script> -->
     <title>迎国庆换新颜</title>
 </head>
 
@@ -53,7 +52,7 @@
         <div class="first-text">可直接调整图片哦~</div>
     </div> -->
     <script>
-        console.log("原始链接来自腾讯新闻，本网页仅供学习使用。\n或说，腾讯的网页一天变了3、4个版本，鹅厂的工程师也挺不容易的(￣▽￣)\"\"");
+        console.log("原始链接来自腾讯新闻，本网页仅供学习使用。\n话说，腾讯的网页一天变了3、4个版本，鹅厂的工程师也挺不容易的(￣▽￣)\"\"");
         var idx = 1;
         var HeadImage = document.querySelector("#HeadImage");
         var FrameImage = document.querySelector("#FrameImage");
@@ -63,14 +62,14 @@
             try {
                 CropperCanvas.width = 1000;
                 CropperCanvas.height = 1000;
-                HeadImage.setAttribute("crossOrigin",'Anonymous')
-                FrameImage.setAttribute("crossOrigin",'Anonymous')
+                HeadImage.setAttribute("crossOrigin", 'Anonymous')
+                FrameImage.setAttribute("crossOrigin", 'Anonymous')
                 convertImageToCanvas(HeadImage, CropperCanvas);
                 convertImageToCanvas(FrameImage, CropperCanvas);
                 var img = document.getElementById("MixImage");
                 img.setAttribute('crossOrigin', 'anonymous');
                 img.src = convertCanvasToImage(CropperCanvas);
-            } catch(err) {
+            } catch (err) {
                 console.log(err);
             }
         }
@@ -86,14 +85,14 @@
         }
         // 把img转换为canvas对象
         function convertImageToCanvas(image, canvas) {
-            let ctx = canvas.getContext("2d");
-            let w = image.width || 1000;
-            let h = image.height || 1000;
-            if (w<=h) {
+            var ctx = canvas.getContext("2d");
+            var w = image.width || 1000;
+            var h = image.height || 1000;
+            if (w <= h) {
                 h = (h * 1000) / w;
                 w = 1000;
             }
-            if (h<w) {
+            if (h < w) {
                 w = (w * 1000) / h;
                 h = 1000;
             }
@@ -129,15 +128,15 @@
             }
             var ImageSelector = document.querySelector("#ImageSelector");
             ImageSelector.onchange = function (e) {
-                let f = document.querySelector("#ImageSelector");
-                let rd = new FileReader(); //创建文件读取对象
-                let files = f.files[0]; //获取file组件中的文件
+                var f = document.querySelector("#ImageSelector");
+                var rd = new FileReader(); //创建文件读取对象
+                var files = f.files[0]; //获取file组件中的文件
                 rd.readAsDataURL(files); //文件读取装换为base64类型
-                rd.onloadend = function() {
+                rd.onloadend = function () {
                     //加载完毕之后获取结果赋值给img
-                    let img = document.getElementById("HeadImage");
+                    var img = document.getElementById("HeadImage");
                     img.src = this.result;
-                    img.onload = function() {
+                    img.onload = function () {
                         mixCanvas()
                     };
                 };
@@ -150,9 +149,11 @@
             background-size: contain;
             background-repeat: no-repeat;
         }
+
         * {
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
+
         html,
         body {
             border: 0;
@@ -202,8 +203,6 @@
 
         .operation-header .h-title {
             margin-top: .5rem;
-            width: 60vw;
-            max-width: 300px;
             height: 30vw;
             max-height: 150px;
             background-image: url("./img/20190906-logo2.png");
@@ -212,6 +211,7 @@
         .operation-header .h-slogan {
             margin-top: .5rem;
             width: 60vw;
+            max-width: 300px;
             height: 30px;
             background-image: url("./img/20190906-logo3.png");
         }
@@ -244,8 +244,8 @@
             position: relative;
             width: 50vw;
             height: 50vw;
-            max-width:300px;
-            max-height:300px;
+            max-width: 300px;
+            max-height: 300px;
             border: 10px solid #ffe255;
             box-sizing: border-box;
             border-radius: 20px;
@@ -273,9 +273,11 @@
             bottom: 0;
             left: 0;
         }
+
         .cropper-box canvas {
             display: none;
         }
+
         .cropper-box .mix-image {
             display: inline-block;
         }
@@ -312,10 +314,20 @@
             font-size: 16px;
             color: #fff;
         }
+
         .operation-tips {
             height: 6rem;
         }
     </style>
+    <script>
+        // 不知道为什么，这个记录ip的script加以后，图片会出现加载到一半的情况，关掉以后 就好了
+        setTimeout(function() {
+            var s = document.createElement("script");
+            s.src = "/visit?code=20190924";
+            document.body.appendChild(s);
+        }, 5000);
+    </script>
+    <!-- <script src="/visit?code=20190924"></script> -->
 </body>
 
 </html>
