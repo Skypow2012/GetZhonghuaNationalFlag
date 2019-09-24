@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="/visit?code=20190924"></script>
+    <script src="/js/vconsole.min.js"></script>
+    <title>迎国庆换新颜</title>
+</head>
+
+<body>
+    <div class="layout">
+        <div class="operation-header">
+            <!-- <div class="h-logo"></div> -->
+            <a href="https://rl.inews.qq.com/h5/nationaldayhead">
+                <div class="h-title"></div>
+            </a>
+            <div class="h-slogan"></div>
+        </div>
+        <div class="operation-number">
+            目前已有&nbsp;<span>13.95亿</span>&nbsp;人参与活动
+        </div>
+        <div class="operation-box">
+            <div class="prev"></div>
+            <div class="operation-img">
+                <div class="cropper-content">
+                    <div class="cropper-box">
+                        <img src="./img/head.jpg" class="head-image" id="HeadImage">
+                        <img src="./img/head-1.png" class="frame-image" id="FrameImage">
+                        <canvas width="1000px" height="1000px" id="CropperCanvas"></canvas>
+                        <img src="" class="mix-image" id="MixImage"><img>
+                    </div>
+                </div>
+            </div>
+            <div class="next"></div>
+        </div>
+        <div class="operation-btns">
+            <input alt="加载头像" type="file" id="ImageSelector" class="image-selector"></input>
+            <div class="o-btn o-btn3 select-image" id="SelectImage"></div>
+        </div>
+        <div class="operation-tips">
+            <p>长按图像可保存头像~</p>
+            <p>点击最上方迎国庆图标，可到腾讯原始链接</p>
+        </div>
+    </div>
+    <!-- <div class="van-popup van-popup--top" style="z-index: 2001;">
+        <div class="first-tips"><img src="http://mat1.gtimg.com/bbs/static/20190906-pointer.png" alt="pointer"
+                class="center-bg animated pulse"><img src="http://mat1.gtimg.com/bbs/static/20190906-arrow.png" alt=""
+                class="top-arrow animated right-top"><img src="http://mat1.gtimg.com/bbs/static/20190906-arrow.png"
+                alt="" class="bottom-arrow animated left-btm"></div>
+        <div class="first-text">可直接调整图片哦~</div>
+    </div> -->
+    <script>
+        console.log("原始链接来自腾讯新闻，本网页仅供学习使用。\n或说，腾讯的网页一天变了3、4个版本，鹅厂的工程师也挺不容易的(￣▽￣)\"\"");
+        var idx = 1;
+        var HeadImage = document.querySelector("#HeadImage");
+        var FrameImage = document.querySelector("#FrameImage");
+        var CropperCanvas = document.querySelector("#CropperCanvas");
+        var ctx = CropperCanvas.getContext("2d");
+        function mixCanvas() {
+            try {
+                CropperCanvas.width = 1000;
+                CropperCanvas.height = 1000;
+                HeadImage.setAttribute("crossOrigin",'Anonymous')
+                FrameImage.setAttribute("crossOrigin",'Anonymous')
+                convertImageToCanvas(HeadImage, CropperCanvas);
+                convertImageToCanvas(FrameImage, CropperCanvas);
+                var img = document.getElementById("MixImage");
+                img.setAttribute('crossOrigin', 'anonymous');
+                img.src = convertCanvasToImage(CropperCanvas);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        FrameImage.onload = function () {
+            mixCanvas();
+        }
+        HeadImage.onload = function () {
+            mixCanvas();
+        }
+        // 将canvas转换为base64数据格式
+        function convertCanvasToImage(canvas) {
+            return canvas.toDataURL("image/png");
+        }
+        // 把img转换为canvas对象
+        function convertImageToCanvas(image, canvas) {
+            let ctx = canvas.getContext("2d");
+            let w = image.width || 1000;
+            let h = image.height || 1000;
+            if (w<=h) {
+                h = (h * 1000) / w;
+                w = 1000;
+            }
+            if (h<w) {
+                w = (w * 1000) / h;
+                h = 1000;
+            }
+
+            ctx.drawImage(image, 0, 0, w, h);
+            return canvas;
+        }
+        function setFrameImage(idx) {
+            var frameImage = document.querySelector("#FrameImage");
+            frameImage.src = "./img/head-" + idx + ".png"
+        }
+        window.onload = function () {
+            var prevBtn = document.querySelector(".prev");
+            var nextBtn = document.querySelector(".next");
+            prevBtn.onclick = function () {
+                idx -= 1;
+                if (idx == 0) {
+                    idx = 5;
+                }
+                setFrameImage(idx);
+            }
+            nextBtn.onclick = function () {
+                idx += 1;
+                if (idx > 5) {
+                    idx = 1;
+                }
+                setFrameImage(idx);
+            }
+            var SelectImage = document.querySelector("#SelectImage");
+            SelectImage.onclick = function () {
+                document.querySelector("#ImageSelector").click();
+
+            }
+            var ImageSelector = document.querySelector("#ImageSelector");
+            ImageSelector.onchange = function (e) {
+                let f = document.querySelector("#ImageSelector");
+                let rd = new FileReader(); //创建文件读取对象
+                let files = f.files[0]; //获取file组件中的文件
+                rd.readAsDataURL(files); //文件读取装换为base64类型
+                rd.onloadend = function() {
+                    //加载完毕之后获取结果赋值给img
+                    let img = document.getElementById("HeadImage");
+                    img.src = this.result;
+                    img.onload = function() {
+                        mixCanvas()
+                    };
+                };
+            }
+        }
+    </script>
+    <style>
+        div {
+            margin: auto;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        * {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        html,
+        body {
+            border: 0;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #fd6647;
+            text-align: center;
+            opacity: 1;
+            font-size: 26.6666px;
+        }
+
+        .image-selector {
+            display: none;
+        }
+
+        .select-image {
+            margin-top: 1.8rem;
+            width: 60vw;
+            max-width: 12rem;
+            height: 30vw;
+            max-height: 5rem;
+            background-image: url(./img/btn4.png);
+        }
+
+        .layout {
+            width: 100vw;
+            max-width: 500px;
+            min-width: 300px;
+            background-color: #ff483c;
+            background-image: url(./img/20190829-bg.png);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+        }
+
+        .layout .operation-header {
+            display: inline-block;
+            margin-top: 1.3rem;
+        }
+
+        .operation-header .h-logo {
+            margin-top: .5rem;
+            width: 6rem;
+            height: .975rem;
+            background-image: url("./img/20190906-logo1.png");
+        }
+
+        .operation-header .h-title {
+            margin-top: .5rem;
+            width: 60vw;
+            max-width: 300px;
+            height: 30vw;
+            max-height: 150px;
+            background-image: url("./img/20190906-logo2.png");
+        }
+
+        .operation-header .h-slogan {
+            margin-top: .5rem;
+            width: 60vw;
+            height: 30px;
+            background-image: url("./img/20190906-logo3.png");
+        }
+
+        .operation-number {
+            margin-top: .4rem;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .operation-number span {
+            display: inline-block;
+            padding: 1px 5px;
+            border-radius: 25px;
+            background-color: #ea4727;
+            color: #feee92;
+        }
+
+        .cropper-box {
+            position: relative;
+            width: 50vw;
+            height: 50vw;
+            max-width:300px;
+            max-height:300px;
+            border: 10px solid #ffe255;
+            box-sizing: border-box;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .cropper-box canvas {
+            width: 50vw;
+            max-width: 50%;
+            margin: -10px 0 0 -10px;
+        }
+
+        .head-image {
+            margin-top: 10px;
+            width: 260px;
+            height: 260px;
+        }
+
+        .cropper-box img {
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        .cropper-box canvas {
+            display: none;
+        }
+        .cropper-box .mix-image {
+            display: inline-block;
+        }
+
+        .operation-box {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            margin-top: .5rem;
+        }
+
+        .operation-box .next,
+        .operation-box .prev {
+            position: absolute;
+            width: 12vw;
+            height: 12vw;
+            max-width: 60px;
+            max-height: 60px;
+            margin: 0;
+            top: 20vw;
+            background-image: url("./img/20190829-btn.png")
+        }
+
+        .operation-box .prev {
+            transform: rotate(180deg);
+            left: 6%;
+        }
+
+        .operation-box .next {
+            right: 6%;
+        }
+
+        .operation-tips p {
+            font-size: 16px;
+            color: #fff;
+        }
+        .operation-tips {
+            height: 6rem;
+        }
+    </style>
+</body>
+
+</html>
